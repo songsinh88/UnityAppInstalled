@@ -2,6 +2,10 @@ using UnityEngine;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections;
+
+// We need this one for importing our IOS functions
+using System.Runtime.InteropServices;
 
 #pragma warning disable 0414
 public class AppInstalled
@@ -36,11 +40,11 @@ public class AppInstalled
 		}
 	}
 #elif !UNITY_EDITOR && UNITY_IOS
-	[System.Runtime.InteropServices.DllImport( "__Internal" )]
-	private static extern void _NativeShare_Share( string[] files, int filesCount, string subject, string text );
+    [DllImport("__Internal")]
+    private static extern bool _Check_App_Installed(string appID);
 #endif
 
-	private string subject;
+    private string subject;
 
 	public AppInstalled()
 	{
@@ -72,7 +76,7 @@ public class AppInstalled
         }
         return result;
 #elif UNITY_IOS
-		_Check_App_Installed( bundleID );
+		return _Check_App_Installed( appID );
 #else
         return false;
 #endif

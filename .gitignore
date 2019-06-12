@@ -2,3 +2,6 @@ Library
 obj
 *.csproj
 *.sln
+.vs
+Export
+Temp
